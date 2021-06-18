@@ -12,6 +12,10 @@ import { ContentComponent } from './template/content/content.component';
 
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { HomeComponent } from './view/home/home.component';
+import { BillOfMaterialComponent } from './view/bill-of-material/bill-of-material.component';
+import { RegisterInputComponent } from './view/register-input/register-input.component';
+import { ProcessComponent } from './view/process/process.component';
 
 
 
@@ -21,7 +25,11 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     FooterComponent,
     HeaderComponent,
     MenuComponent,
-    ContentComponent
+    ContentComponent,
+    HomeComponent,
+    BillOfMaterialComponent,
+    RegisterInputComponent,
+    ProcessComponent
   ],
   imports: [
     BrowserModule,
