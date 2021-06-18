@@ -1,0 +1,17 @@
+.content {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  height: 547px;
+
+  background-color: #dae8e9;
+  border-radius: 5px;
+}
+
+.menu{
+  grid-column-start: 1;
+}
+
+.router{
+  grid-column-start: 2;
+  margin: 2px 2px 2px 2px;
+}
