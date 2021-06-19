@@ -11,5 +11,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  title:string = "Bem Vindo!"
+  subtitle:string = "Ao sistema de gestão de produtos."
 }
