@@ -17,7 +17,6 @@ import { ProcessComponent } from './view/process/process.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
-import { MatCardHarness } from '@angular/material/card/testing';
 
 
 
@@ -31,7 +30,7 @@ import { MatCardHarness } from '@angular/material/card/testing';
     HomeComponent,
     BillOfMaterialComponent,
     RegisterInputComponent,
-    ProcessComponent
+    ProcessComponent,
   ],
   imports: [
     BrowserModule,

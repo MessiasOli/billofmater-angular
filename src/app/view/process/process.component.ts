@@ -1,3 +1,4 @@
+import { MemoryService } from './../../services/memory.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProcessComponent implements OnInit {
 
-  constructor() { }
+  constructor(private repo: MemoryService) { }
 
   ngOnInit(): void {
+    console.log('this.repo.GetAllProcess() :>> ', this.repo.GetAllProcess());
   }
 
 }

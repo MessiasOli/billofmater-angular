@@ -1,3 +1,4 @@
+import { MemoryService } from '../../services/memory.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterInputComponent implements OnInit {
 
-  constructor() { }
+  constructor(private repository: MemoryService) { 
+    
+  }
 
   ngOnInit(): void {
+    console.log('this.repository :>> ', this.repository.GetAllMaterials());
   }
 
 }
