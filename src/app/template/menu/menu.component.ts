@@ -1,5 +1,6 @@
-import { Menus } from './menus';
-import { Component, OnInit } from '@angular/core';
+import { Menus } from '../../model/menus';
+import { Component, OnInit, Output } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-menu',
@@ -16,14 +17,14 @@ export class MenuComponent implements OnInit {
 
   buttons: Menus = new Menus()
   
-  changeMsg(param : string){
-    console.log('param :>> ', param);
-  }
+  @Output()
+  msgBuss = new EventEmitter()
 
   selected(caption: string){
     this.buttons.home = caption == "home"
     this.buttons.process = caption == "process"
     this.buttons.registerInput = caption == "registerInput"
     this.buttons.billofmaterial = caption == "billofmaterial"
+    this.msgBuss.emit(caption);
   }
 }

@@ -1,6 +1,6 @@
-<app-header></app-header>
+<app-header #changeMsg></app-header>
 <div class="content">
-  <app-menu class="menu"></app-menu>
+  <app-menu (msgBuss)="transferMsg($event)" class="menu"></app-menu>
   <app-content class="router"></app-content>
 </div>
 <app-footer></app-footer>
