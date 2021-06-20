@@ -1,5 +1,6 @@
+import { FooterComponent } from '../template/footer/footer.component';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { HeaderComponent } from './template/header/header.component';
+import { HeaderComponent } from '../template/header/header.component';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,14 @@ export class AppComponent implements AfterViewInit {
   @ViewChild(HeaderComponent, { static: false } )
   header!: HeaderComponent;
 
+  @ViewChild(FooterComponent, { static: false})
+  footer!: FooterComponent;
+
   transferMsg(msg: string){
     this.header.changeMsg(msg)
+  }
+
+  waiting(){
+    this.footer.switchBar();
   }
 }

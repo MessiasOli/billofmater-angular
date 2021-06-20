@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SwitchWaitService } from '../../services/switch-wait.service';
 
 @Component({
   selector: 'app-footer',
@@ -6,15 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent implements OnInit {
-  constructor() { }
-  activeBar: Boolean = true; 
+  constructor(private switchService: SwitchWaitService) { }
+  activeBar: boolean = false;
   
   ngOnInit(): void {
+    this.switchService.action().subscribe( _ =>{
+      this.switchBar()
+    }, (error) => console.log("error", error ))
   }
 
-  switchBar(){
+  public switchBar(){
     this.activeBar = !this.activeBar;
-    let body = document.querySelector("body");
+    let body = document.querySelector("html");
     if(body)
       body.style.cursor = this.activeBar ? "progress" : "default"
   }

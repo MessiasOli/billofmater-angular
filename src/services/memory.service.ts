@@ -10,7 +10,7 @@ export class MemoryService implements IRepository {
 
   repoMaterials : Material[] = [
     {
-      idarea: "asdas",
+      idprocess: "asdas",
       idmaterial: "asdasd",
       description: "Açúcar",
       price: 15.55,

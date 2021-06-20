@@ -1,7 +1,7 @@
 #progress-bar{
   width: calc(100% - 200px);
   margin-left: 200px;
-  bottom: -40px;
+  bottom: 4px;
 }
 
 .mat-toolbar.footer{

@@ -1,5 +1,5 @@
-import { Process } from 'src/app/model/process';
-import { Material } from './../../model/material';
+import { Process } from '../../model/process';
+import { Material } from '../../model/material';
 
 export interface IRepository {
   AddMaterial(mat:Material): boolean
@@ -13,4 +13,5 @@ export interface IRepository {
   GetProcess(id: string):Process
   DeleteProcess(id: string):void
   UpdateProcess(process:Process):Process
+
 }

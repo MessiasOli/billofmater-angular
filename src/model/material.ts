@@ -1,5 +1,5 @@
 export class Material {
-  idarea !: string 
+  idprocess !: string 
   idmaterial !:string 
   description ?: string 
   price ?: number 

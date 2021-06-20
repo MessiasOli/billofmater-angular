@@ -11,8 +11,9 @@ export class MenuComponent implements OnInit {
 
   constructor() { }
 
-  
   ngOnInit(): void {
+    let html = window.location.href.split("/")
+    this.switchButton(html[html.length-1])
   }
 
   buttons: Menus = new Menus()
@@ -21,10 +22,14 @@ export class MenuComponent implements OnInit {
   msgBuss = new EventEmitter()
 
   selected(caption: string){
-    this.buttons.home = caption == "home"
+    this.switchButton(caption)
+    this.msgBuss.emit(caption);
+  }
+
+  switchButton(caption: string){
+    this.buttons.home = caption == "home" || caption == ""
     this.buttons.process = caption == "process"
     this.buttons.registerInput = caption == "registerInput"
     this.buttons.billofmaterial = caption == "billofmaterial"
-    this.msgBuss.emit(caption);
   }
 }
