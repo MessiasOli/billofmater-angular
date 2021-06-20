@@ -1,3 +1,4 @@
+
 import { MemoryService } from '../../services/memory.service';
 import { Component, OnInit, Output } from '@angular/core';
 import { SwitchWaitService } from '../../services/switch-wait.service';
@@ -10,7 +11,6 @@ import { SwitchWaitService } from '../../services/switch-wait.service';
 export class ProcessComponent implements OnInit {
 
   constructor(private repo: MemoryService, private wait : SwitchWaitService) { }
-
 
   ngOnInit(): void {
     this.wait.switchWait();

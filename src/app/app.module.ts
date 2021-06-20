@@ -12,12 +12,16 @@ import { HomeComponent } from '../view/home/home.component';
 import { BillOfMaterialComponent } from '../view/bill-of-material/bill-of-material.component';
 import { RegisterInputComponent } from '../view/register-input/register-input.component';
 import { ProcessComponent } from '../view/process/process.component';
+import { FormmaterialComponent } from '../view/formmaterial/formmaterial.component';
 
 
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
-
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -31,6 +35,7 @@ import { MatCardModule } from '@angular/material/card';
     BillOfMaterialComponent,
     RegisterInputComponent,
     ProcessComponent,
+    FormmaterialComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,6 +44,10 @@ import { MatCardModule } from '@angular/material/card';
     MatProgressBarModule,
     MatToolbarModule,
     MatCardModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatSnackBarModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

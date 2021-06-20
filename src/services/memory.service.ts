@@ -22,10 +22,16 @@ export class MemoryService implements IRepository {
   repoProcess: Process[] =[
     {
       id : "1",
-      nameOfArea: "Bolo",
+      process: "Bolo",
       unitmensurement: "kg",
       value: 15.55
-    }
+    },
+    {
+      id : "2",
+      process: "Cobertura",
+      unitmensurement: "kg",
+      value: 15.55
+    },
   ]
 
   constructor() { }

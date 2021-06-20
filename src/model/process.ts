@@ -1,6 +1,6 @@
 export class Process {
   id !: string;
-  nameOfArea !: string;
+  process !: string;
   value !: number;
   unitmensurement !: string;
 }

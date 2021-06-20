@@ -1,1 +1,47 @@
-<p>register-input works!</p>
+<span>
+  <span class="header">
+    <mat-form-field class="selector">
+      <label for="process">Processos</label>
+      <mat-select name="process" id="process" v-model="selectedProcess">
+        <mat-option
+          *ngFor="let pro of process"
+          [value]="pro.process"
+        >
+          {{ pro.process }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button 
+      mat-fab
+      title="Adicionar um elemento"
+      (click)="updateMaterials()"
+      class="mat-fab mat-plain"
+      color="primary"
+    >
+    <mat-icon style="color: black" >add</mat-icon>
+    </button>
+
+    <button 
+      mat-fab
+      title="Salvar Alterações"
+      (click)="updateMaterials()"
+      class="mat-fab mat-plain"
+    >
+      <img width="25px" height="25px" src="../../assets/save.png" alt="Salvar" />
+    </button>
+    <button
+      mat-fab
+      title="Apagar linhas selecionadas"
+      (click)="deleteMaterials()"
+      class="mat-fab mat-plain"
+    >
+      <mat-icon style="color: black" >delete</mat-icon>
+    </button>
+  </span>
+  <div class="svg">
+    <div *ngIf="materials.length; else elseBlock" class="sample1 demo-grid middle"></div>
+    <ng-template #elseBlock>
+      Não há materiais registrados, selecione uma área e faça o registro.
+    </ng-template>
+  </div>
+</span>
