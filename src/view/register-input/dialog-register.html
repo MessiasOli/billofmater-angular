@@ -1,0 +1,31 @@
+<h1 mat-dialog-title>Registro de Produto</h1>
+<div mat-dialog-content>
+
+    <span class='form'>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Descrição</mat-label>
+        <input [(ngModel)]="material.description" matInput>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Id</mat-label>
+        <input [(ngModel)]="material.idmaterial" matInput>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Preço</mat-label>
+        <input [(ngModel)]="material.price" matInput>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Unidade de medida</mat-label>
+        <input [(ngModel)]="material.unitmensurement" matInput>
+      </mat-form-field>
+
+    </span>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-button [mat-dialog-close]="material" cdkFocusInitial>Salvar</button>
+</div>

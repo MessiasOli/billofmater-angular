@@ -1,6 +1,7 @@
-import { ToolsService } from './../../services/tools.service';
-import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Material } from 'src/model/material';
+import { ToolsService } from './../../services/tools.service';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Process } from 'src/model/process';
 import { MemoryService } from 'src/services/memory.service';
 import { SwitchWaitService } from 'src/services/switch-wait.service';
@@ -10,26 +11,45 @@ import { SwitchWaitService } from 'src/services/switch-wait.service';
   templateUrl: './register-input.component.html',
   styleUrls: ['./register-input.component.css']
 })
+
 export class RegisterInputComponent implements OnInit {
+  displayedColumns: string[] = [ "edit", "idmaterial" , "description", "price", "specificvalue", "unitmensurement"];
+  checked = false;
   constructor(
       private repository: MemoryService, 
       private wait : SwitchWaitService,
-      private tools : ToolsService
+      private tools : ToolsService,
+      public dialog : MatDialog
   ) { }
+  
+    ngOnInit(): void {
+      this.wait.switchWait();
+      this.materials = this.repository.GetAllMaterials();
+      this.process = this.repository.GetAllProcess();
+      console.log('this.materials :>> ', this.materials);
+      this.wait.switchWait();
+    }
 
   materials : Material[] = []
+  selectedMaterial?: Material
   process : Process[] = []
   selectedProcess: string = "";
 
-  ngOnInit(): void {
-    this.wait.switchWait();
-    this.materials = this.repository.GetAllMaterials();
-    this.process = this.repository.GetAllProcess();
-    console.log('this.materials :>> ', this.materials);
-    console.log('this.process :>> ', this.process);
-    this.wait.switchWait();
-  }
+  openDialog(): void{
+    const dialogRef = this.dialog.open(
+      DialogRegister, {width: '500px',
+      data: new Material}
+    );
 
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.selectedMaterial = result;
+      if(this.selectedMaterial)
+        this.materials.push(this.selectedMaterial)
+      console.log('this.materials :>> ', this.materials);
+    });
+  }
+  
   async updateMaterials() {
     this.wait.switchWait();
     let toSave = 0;
@@ -95,5 +115,21 @@ export class RegisterInputComponent implements OnInit {
     };
     return matEdited;
   }
+}
 
+@Component({
+  selector: 'dialog-register',
+  templateUrl: 'dialog-register.html',
+  styleUrls: ['./register-input.component.css']
+})
+export class DialogRegister {
+
+  constructor(
+    public dialogRef:  MatDialogRef<DialogRegister>,
+    @Inject(MAT_DIALOG_DATA) public material: Material
+  ) {}
+
+  onNoClick(): void { 
+    this.dialogRef.close();
+  }
 }

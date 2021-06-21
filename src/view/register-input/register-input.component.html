@@ -12,34 +12,62 @@
       </mat-select>
     </mat-form-field>
     <button 
-      mat-fab
-      title="Adicionar um elemento"
-      (click)="updateMaterials()"
-      class="mat-fab mat-plain"
+      mat-mini-fab
+      title="Adicionar produto"
+      (click)="openDialog()"
+      class="salvar"
       color="primary"
     >
     <mat-icon style="color: black" >add</mat-icon>
     </button>
 
-    <button 
-      mat-fab
-      title="Salvar Alterações"
-      (click)="updateMaterials()"
-      class="mat-fab mat-plain"
-    >
-      <img width="25px" height="25px" src="../../assets/save.png" alt="Salvar" />
-    </button>
-    <button
-      mat-fab
-      title="Apagar linhas selecionadas"
-      (click)="deleteMaterials()"
-      class="mat-fab mat-plain"
-    >
-      <mat-icon style="color: black" >delete</mat-icon>
-    </button>
   </span>
   <div class="svg">
-    <div *ngIf="materials.length; else elseBlock" class="sample1 demo-grid middle"></div>
+    <div *ngIf="materials.length; else elseBlock">
+      <table mat-table [dataSource]="materials" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="edit">
+          <th width="150px" mat-header-cell *matHeaderCellDef> </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="primary" title="Editar linha">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="accent" title="Apagar linha">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="idmaterial">
+          <th width="175px" mat-header-cell *matHeaderCellDef> Id </th>
+          <td mat-cell *matCellDef="let element">
+            {{element.idmaterial}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="description">
+          <th width="300px" mat-header-cell *matHeaderCellDef> Descrição </th>
+          <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="price">
+          <th width="175px" mat-header-cell *matHeaderCellDef> Preço </th>
+          <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="specificvalue">
+          <th width="175px" mat-header-cell *matHeaderCellDef> Valor específico </th>
+          <td mat-cell *matCellDef="let element"> {{element.specificvalue}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="unitmensurement">
+          <th width="175px" mat-header-cell *matHeaderCellDef> Und. específica </th>
+          <td mat-cell *matCellDef="let element"> {{element.unitmensurement}} </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>    
+    </div>
     <ng-template #elseBlock>
       Não há materiais registrados, selecione uma área e faça o registro.
     </ng-template>
