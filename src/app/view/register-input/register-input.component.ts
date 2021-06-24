@@ -1,3 +1,4 @@
+
 import { RepositoryService } from './../../services/repository.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Material } from '../../model/material';
@@ -6,13 +7,22 @@ import { Process } from '../../model/process';
 import { SwitchWaitService } from '../../services/switch-wait.service';
 import { MatTable } from '@angular/material/table';
 import { ViewChild } from '@angular/core';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+
+
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState( control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 @Component({
   selector: 'app-register-input',
   templateUrl: './register-input.component.html',
   styleUrls: ['./register-input.component.css']
 })
-
 export class RegisterInputComponent implements OnInit {
   
   displayedColumns: string[] = [ "edit", "idmaterial" , "description", "price", "specificvalue", "unitmensurement"];
@@ -21,6 +31,7 @@ export class RegisterInputComponent implements OnInit {
   selectedProcess: string = "";
   selectedProcessId: string = "";
   selectedMaterial: string = "";
+  newMaterial: boolean = false;
 
   @ViewChild(MatTable) table !: MatTable<Material>;
 
@@ -38,7 +49,14 @@ export class RegisterInputComponent implements OnInit {
   }
 
   openDialogRegister(matForEdit?: Material): void{
-      matForEdit = matForEdit == undefined ? new Material : matForEdit
+    if(matForEdit == undefined){
+      matForEdit =  new Material
+      this.newMaterial = true
+    }else{
+      this.newMaterial = false
+    }
+
+      matForEdit.idprocess = this.selectedProcessId
       const dialogRef = this.dialog.open(
         DialogRegister, 
         {
@@ -50,21 +68,23 @@ export class RegisterInputComponent implements OnInit {
       console.log('The dialog was closed');
       if (!result)
         return
-      let selectedMat : Material = result;
-      if(!this.IsEmpty(selectedMat)){
-        if(!selectedMat.idprocess)
+      console.log('result :>> ', result);
+
+      if(!this.IsEmpty(result)){
+        if(this.newMaterial)
         {
-          selectedMat.idprocess = this.selectedProcessId
-          this.repository.AddMaterial(selectedMat)
+          result.idprocess = this.selectedProcessId
+          this.repository.AddMaterial(result)
         }
         else
         {
           console.log("Material editado")
-          this.repository.UpdateMaterials(selectedMat)
+          this.repository.UpdateMaterials(result)
         }
 
         this.loadMaterials();
-        this.table.renderRows()
+        if (this.table) 
+          this.table.renderRows()
         console.log('this.materials :>> ', this.materials);
       }
     });
@@ -80,14 +100,10 @@ export class RegisterInputComponent implements OnInit {
       if (result){
         this.repository.DeleteMaterials(idmaterial, this.selectedProcessId)
         this.loadMaterials()
-        this.table.renderRows()
+        if (this.table) 
+          this.table.renderRows()
       }
     });
-  }
-
-  openDialog(description: string): boolean{
-
-    return false;
   }
 
   update(idmaterial:string)
@@ -95,7 +111,9 @@ export class RegisterInputComponent implements OnInit {
     let matEdited : Material | undefined = this.materials.find(mat => mat.idmaterial == idmaterial)
     if (matEdited)
       this.openDialogRegister({...matEdited})
-    this.table.renderRows()
+
+    if (this.table) 
+      this.table.renderRows()
   }
 
   IsEmpty(mat : Material) {    
@@ -122,14 +140,65 @@ export class RegisterInputComponent implements OnInit {
   templateUrl: 'dialog-register.html',
   styleUrls: ['./register-input.component.css']
 })
-export class DialogRegister {
+export class DialogRegister implements OnInit {
   constructor(
+    public repository : RepositoryService,
     public dialogRef:  MatDialogRef<DialogRegister>,
     @Inject(MAT_DIALOG_DATA) public material: Material
   ) {}
 
-  onNoClick(): void { 
-    this.dialogRef.close();
+  ngOnInit(): void {
+    this.newMaterial = this.material.idmaterial ? false : true
+    if(!this.newMaterial)
+      this.idmaterial.disable();
+  }
+
+  idmaterial = new FormControl('',[ Validators.required])
+  description = new FormControl('',[Validators.required])
+  price = new FormControl('',[Validators.required])
+  specificvalue = new FormControl('',[Validators.required])
+  unitmensurement = new FormControl('',[Validators.required])
+  matcher = new MyErrorStateMatcher();
+  public materialConflicted: string = ''
+  public idValidated: boolean = false;
+  newMaterial : boolean = false;
+
+  validateId():boolean{
+    let isInvalid = false
+    let idProcess = this.material.idprocess
+    this.repository.GetAllMaterials(idProcess).forEach(mat => {
+      if (mat.idmaterial == this.material.idmaterial){
+        this.materialConflicted = mat.description;
+        isInvalid = true
+      }
+    })
+    return isInvalid
+  }
+
+  onClick(res:boolean): void { 
+    if(res && this.validateId() && this.newMaterial){
+      this.idValidated = true
+      return
+    }
+    else if(!res)
+      this.dialogRef.close()
+    
+    if(this.checkAllFieldsOK())
+      this.dialogRef.close(this.material);
+  }
+
+  onKewDown(event:any){
+    this.idValidated = false;
+  }
+
+  checkAllFieldsOK():boolean{
+    if (this.idmaterial.status == "INVALID" ||
+        this.description.status == "INVALID" ||
+        this.price.status == "INVALID" ||
+        this.specificvalue.status == "INVALID" ||
+        this.unitmensurement.status == "INVALID")
+      return false
+    return true
   }
 }
 

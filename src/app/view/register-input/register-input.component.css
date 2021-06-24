@@ -44,3 +44,13 @@
   width: 100%;
 }
 
+.conflicId{
+  padding-left: 10.5px;
+  color: red;
+  font-size: 0.8rem;
+}
+
+.field-invalid{
+  background-color: #ff000050;
+}
+

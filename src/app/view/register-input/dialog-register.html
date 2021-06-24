@@ -1,41 +1,82 @@
 <h1 mat-dialog-title>Registro de Produto</h1>
 <div mat-dialog-content>
     <span class='form'>
-      <mat-grid-list cols="2" rowHeight="60px">
+      <mat-grid-list cols="2" rowHeight="70px">
         <mat-grid-tile [colspan]="2">
           <mat-form-field appearance="fill">
             <mat-label>Descrição</mat-label>
-            <input [(ngModel)]="material.description" matInput>
+            <input 
+              [(ngModel)]="material.description" 
+              [formControl]="description"
+              [errorStateMatcher]="matcher"
+              matInput>
+            <mat-error *ngIf="description.hasError('required')">
+              Insira uma descrição para seu material.
+            </mat-error>
           </mat-form-field>
         </mat-grid-tile>
 
         <mat-grid-tile [colspan]="2">
           <mat-form-field appearance="fill">
             <mat-label>Id</mat-label>
-            <input [(ngModel)]="material.idmaterial" matInput>
-          </mat-form-field>
-
+            <input 
+              [ngClass]="{'field-invalid': idValidated }"
+              (keydown)="onKewDown($event)"
+              [(ngModel)]="material.idmaterial"
+              [formControl]="idmaterial"
+              [errorStateMatcher]="matcher"
+              matInput>
+              <mat-error *ngIf="idmaterial.hasError('required')">
+                Insira id para seu material.
+              </mat-error>
+            </mat-form-field>
           <mat-form-field appearance="fill">
             <mat-label>Valor específico</mat-label>
-            <input [(ngModel)]="material.specificvalue" matInput>
+            <input 
+              type="number" 
+              [(ngModel)]="material.specificvalue"
+              [formControl]="specificvalue"
+              [errorStateMatcher]="matcher"
+              matInput>
+              <mat-error *ngIf="specificvalue.hasError('required')">
+                É necessário um valor específico válido.
+              </mat-error>
           </mat-form-field>
         </mat-grid-tile>
 
         <mat-grid-tile [colspan]="2">
           <mat-form-field appearance="fill">
             <mat-label>Preço</mat-label>
-            <input [(ngModel)]="material.price" matInput>
+            <input 
+              type="number" 
+              [(ngModel)]="material.price" 
+              [formControl]="price"
+              [errorStateMatcher]="matcher"
+              matInput>
+              <mat-error *ngIf="price.hasError('required')">
+                É necessário um valor válido.
+              </mat-error>
           </mat-form-field>
   
           <mat-form-field appearance="fill">
             <mat-label>Unidade de medida</mat-label>
-            <input [(ngModel)]="material.unitmensurement" matInput>
+            <input 
+              [(ngModel)]="material.unitmensurement" 
+              [formControl]="unitmensurement"
+              [errorStateMatcher]="matcher"
+              matInput>
+              <mat-error *ngIf="unitmensurement.hasError('required')">
+                É necessário uma unidade específica válida.
+              </mat-error>
           </mat-form-field>
         </mat-grid-tile>
       </mat-grid-list>
     </span>
 </div>
+<span class="conflicId" *ngIf="idValidated">
+  Id igual ao material <strong>{{materialConflicted}}</strong>, tente escolher outro id. 
+</span>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Cancelar</button>
-  <button mat-button [mat-dialog-close]="material" cdkFocusInitial>Salvar</button>
+  <button mat-button (click)="onClick(false)">Cancelar</button>
+  <button mat-button (click)="onClick(true)" cdkFocusInitial>Salvar</button>
 </div>
