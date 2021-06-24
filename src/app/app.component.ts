@@ -1,6 +1,6 @@
-import { FooterComponent } from '../template/footer/footer.component';
+import { FooterComponent } from './template/footer/footer.component';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { HeaderComponent } from '../template/header/header.component';
+import { HeaderComponent } from './template/header/header.component';
 
 @Component({
   selector: 'app-root',

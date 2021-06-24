@@ -1,11 +1,11 @@
 import { Process } from '../../model/process';
 import { Material } from '../../model/material';
 
-export interface IRepository {
+export interface IrepositoryGateway {
   AddMaterial(mat:Material): boolean
-  GetAllMaterials():Material[]
+  GetAllMaterials(id: string):Material[]
   GetMaterial(id: string):Material
-  DeleteMaterials(id: string):void
+  DeleteMaterials(id: string,  idProcess: string):void
   UpdateMaterials(mat:Material):Material
 
   AddProcess(process:Process): boolean

@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Atenção</h1>
+<div mat-dialog-content>
+  <h3>Deseja apagar o material: <strong>{{ description }}</strong> ?</h3>
+</div>
+<div mat-dialog-actions>
+  <button mat-flat-button (click)="onClick(false)">Não</button>
+  <button mat-flat-button (click)="onClick(true)" cdkFocusInitial>Sim</button>
+</div>

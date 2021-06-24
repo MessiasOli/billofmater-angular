@@ -5,4 +5,5 @@ export class Material {
   price ?: number 
   unitmensurement ?: string 
   specificvalue ?: number
+
 }

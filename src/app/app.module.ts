@@ -5,16 +5,15 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FooterComponent } from '../template/footer/footer.component';
-import { HeaderComponent } from '../template/header/header.component';
-import { MenuComponent } from '../template/menu/menu.component';
-import { ContentComponent } from '../template/content/content.component';
-import { HomeComponent } from '../view/home/home.component';
-import { BillOfMaterialComponent } from '../view/bill-of-material/bill-of-material.component';
-import { RegisterInputComponent } from '../view/register-input/register-input.component';
-import { ProcessComponent } from '../view/process/process.component';
-import { FormmaterialComponent } from '../view/formmaterial/formmaterial.component';
-import { DialogRegister } from '../view/register-input/register-input.component';
+import { FooterComponent } from './template/footer/footer.component';
+import { HeaderComponent } from './template/header/header.component';
+import { MenuComponent } from './template/menu/menu.component';
+import { ContentComponent } from './template/content/content.component';
+import { HomeComponent } from './view/home/home.component';
+import { BillOfMaterialComponent } from './view/bill-of-material/bill-of-material.component';
+import { RegisterInputComponent, DialogQuestion } from './view/register-input/register-input.component';
+import { ProcessComponent } from './view/process/process.component';
+import { DialogRegister } from './view/register-input/register-input.component';
 
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -27,8 +26,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
-
-
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
@@ -41,8 +39,8 @@ import { MatFormFieldModule } from "@angular/material/form-field";
     BillOfMaterialComponent,
     RegisterInputComponent,
     ProcessComponent,
-    FormmaterialComponent,
-    DialogRegister
+    DialogRegister,
+    DialogQuestion
   ],
   imports: [
     FormsModule,
@@ -59,9 +57,10 @@ import { MatFormFieldModule } from "@angular/material/form-field";
     MatTableModule,
     MatDialogModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatGridListModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [ ],
+  bootstrap: [ AppComponent ],
 })
 export class AppModule { }

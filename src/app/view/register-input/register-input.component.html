@@ -1,10 +1,19 @@
 <span>
   <span class="header">
     <mat-form-field class="selector">
-      <label for="process">Processos</label>
-      <mat-select name="process" id="process" v-model="selectedProcess">
+      <mat-label for="process">Processos</mat-label>
+      <mat-select 
+        id="process" 
+        name="process" 
+        matNativeControl 
+        [(ngModel)]="selectedProcess">
         <mat-option
-          *ngFor="let pro of process"
+          value="null"
+          disabled
+        ></mat-option>
+        <mat-option
+        *ngFor="let pro of process"
+          (click)="onChange(pro.id)"
           [value]="pro.process"
         >
           {{ pro.process }}
@@ -12,9 +21,10 @@
       </mat-select>
     </mat-form-field>
     <button 
+      [disabled]="selectedProcess == '' ? true : false"
       mat-mini-fab
       title="Adicionar produto"
-      (click)="openDialog()"
+      (click)="openDialogRegister()"
       class="salvar"
       color="primary"
     >
@@ -22,17 +32,17 @@
     </button>
 
   </span>
-  <div class="svg">
+  <div class="table">
     <div *ngIf="materials.length; else elseBlock">
       <table mat-table [dataSource]="materials" class="mat-elevation-z8">
 
         <ng-container matColumnDef="edit">
           <th width="150px" mat-header-cell *matHeaderCellDef> </th>
           <td mat-cell *matCellDef="let element">
-            <button mat-icon-button color="primary" title="Editar linha">
+            <button (click)="update(element.idmaterial)" mat-icon-button color="primary" title="Editar linha">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button color="accent" title="Apagar linha">
+            <button (click)="delete(element.idmaterial, element.description)" mat-icon-button color="accent" title="Apagar linha">
               <mat-icon>delete</mat-icon>
             </button>
           </td>
@@ -68,8 +78,10 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>    
     </div>
-    <ng-template #elseBlock>
-      Não há materiais registrados, selecione uma área e faça o registro.
+    <ng-template class="else" #elseBlock>
+      <p class="msg">
+        Não há materiais registrados para esse processo.
+      </p>
     </ng-template>
   </div>
 </span>
