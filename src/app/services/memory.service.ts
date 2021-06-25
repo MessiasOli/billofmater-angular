@@ -1,12 +1,12 @@
 import { Material } from '../model/material';
 import { Injectable } from '@angular/core';
 import { Process } from '../model/process';
-import { IrepositoryGateway } from "./interface/IRepository"
+import { IRepository } from "./interface/IRepository"
 
 @Injectable({
   providedIn: 'root'
 })
-export class MemoryService implements IrepositoryGateway {
+export class MemoryService implements IRepository {
 
   repoMaterials : Material[] = []
   repoProcess: Process[] =[]
@@ -46,11 +46,11 @@ export class MemoryService implements IrepositoryGateway {
       },
     ]
    }
-  AddMaterial(mat: Material): boolean {
+  async AddMaterial(mat: Material): Promise<boolean> {
     this.repoMaterials.push(mat)
     return true;
   }
-  GetAllMaterials(idProcess:string): Material[] {
+  async GetAllMaterials(idProcess:string): Promise<Material[]> {
     return this.repoMaterials.filter(mat => mat.idprocess == idProcess);
   }
   GetMaterial(id: string): Material {
@@ -63,7 +63,7 @@ export class MemoryService implements IrepositoryGateway {
     this.repoMaterials.splice(index, 1)
   }
 
-  UpdateMaterials(mat: Material): Material {
+  async UpdateMaterials(mat: Material): Promise<Material>{
     this.repoMaterials.map((m, i) =>{
       if(m.idmaterial == mat.idmaterial && m.idprocess == mat.idprocess){
         this.repoMaterials[i] = mat
@@ -74,7 +74,7 @@ export class MemoryService implements IrepositoryGateway {
   }
 
 
-  AddProcess(process: Process): boolean {
+  AddProcess(process: Process): boolean{
     this.repoProcess.push(process)
     return true;
   }

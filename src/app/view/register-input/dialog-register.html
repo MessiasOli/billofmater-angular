@@ -33,7 +33,7 @@
           <mat-form-field appearance="fill">
             <mat-label>Valor específico</mat-label>
             <input 
-              type="number" 
+              type="number" min="0"
               [(ngModel)]="material.specificvalue"
               [formControl]="specificvalue"
               [errorStateMatcher]="matcher"
@@ -48,7 +48,7 @@
           <mat-form-field appearance="fill">
             <mat-label>Preço</mat-label>
             <input 
-              type="number" 
+              type="number" min="0"
               [(ngModel)]="material.price" 
               [formControl]="price"
               [errorStateMatcher]="matcher"
