@@ -4,14 +4,18 @@ import { Injectable } from '@angular/core';
 import { Material } from '../model/material';
 import { Process } from '../model/process';
 
-export var URL_API = "https://b-bom-ra-sc3009572.herokuapp.com/api"
+export var URL_API:string = "https://b-bom-ra-sc3009572.herokuapp.com/api"
 //export var URL_API = "http://localhost:8080/api"
+
 @Injectable({
   providedIn: 'root'
 })
 export class DbMongooseService implements IRepository {
   processList: Process[] = []
   constructor() {
+    axios.defaults.headers.post['Content-Type'] ='application/json;charset=utf-8';
+    axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+
     this.processList = [
       {
         id : "1",
