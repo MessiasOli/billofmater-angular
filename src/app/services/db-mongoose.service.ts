@@ -15,8 +15,7 @@ export class DbMongooseService implements IRepository {
 
   constructor() {
     this.api = axios.create({
-      url: "https://f-bom-ra-sc3009572.herokuapp.com/",
-      baseURL: "https://b-bom-ra-sc3009572.herokuapp.com/",
+      baseURL: "https://b-bom-ra-sc3009572.herokuapp.com/api",
       headers: {
         'Access-Control-Allow-Origin' : '*',
         'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
