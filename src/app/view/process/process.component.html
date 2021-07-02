@@ -1,1 +1,61 @@
-<p>process works!</p>
+<span>
+  <span class="header">
+    <h2>{{"nome dos processos" | titlecase}}</h2>
+    <button 
+      mat-mini-fab
+      title="Adicionar produto"
+      (click)="openDialogRegister()"
+      class="salvar"
+      color="primary"
+    >
+    <mat-icon style="color: black" >add</mat-icon>
+    </button>
+
+  </span>
+  <div class="table">
+    <div *ngIf="process.length; else elseBlock">
+      <table mat-table [dataSource]="process" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="edit">
+          <th width="150px" mat-header-cell *matHeaderCellDef> </th>
+          <td mat-cell *matCellDef="let element">
+            <button (click)="update(element.idmaterial)" mat-icon-button color="primary" title="Editar linha">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button (click)="delete(element.idmaterial)" mat-icon-button color="accent" title="Apagar linha">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="id">
+          <th width="100px" mat-header-cell *matHeaderCellDef> id </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="process">
+          <th width="40%" mat-header-cell *matHeaderCellDef> Descrição </th>
+          <td mat-cell *matCellDef="let element"> {{element.process}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="value">
+          <th width="200px" mat-header-cell *matHeaderCellDef> Valor </th>
+          <td mat-cell *matCellDef="let element"> {{element.value}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="unitmensurement">
+          <th width="200px" mat-header-cell *matHeaderCellDef> Unidade de medida </th>
+          <td mat-cell *matCellDef="let element"> {{element.unitmensurement}} </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>    
+    </div>
+    <ng-template class="else" #elseBlock>
+      <p class="msg">
+        Não há materiais registrados para esse processo.
+      </p>
+    </ng-template>
+  </div>
+</span>

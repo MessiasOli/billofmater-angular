@@ -55,7 +55,7 @@ export class RegisterInputComponent implements OnInit {
 
       matForEdit.idprocess = this.selectedProcessId
       const dialogRef = this.dialog.open(
-        DialogRegister, 
+        DialogInputRegister, 
         {
           width: '500px',
           data: matForEdit
@@ -137,14 +137,14 @@ export class RegisterInputComponent implements OnInit {
 }
 
 @Component({
-  selector: 'dialog-register',
-  templateUrl: 'dialog-register.html',
+  selector: 'dialog-input-register',
+  templateUrl: 'dialog-input-register.html',
   styleUrls: ['./register-input.component.css']
 })
-export class DialogRegister implements OnInit {
+export class DialogInputRegister implements OnInit {
   constructor(
     public repository : RepositoryService,
-    public dialogRef:  MatDialogRef<DialogRegister>,
+    public dialogRef:  MatDialogRef<DialogInputRegister>,
     @Inject(MAT_DIALOG_DATA) public material: Material
   ) {}
 
@@ -215,7 +215,7 @@ export class DialogRegister implements OnInit {
 
 @Component({
   selector: 'dialog-question',
-  templateUrl: 'dialog-question.html',
+  templateUrl: '../dialog/dialog-question.html',
   styleUrls: ['./register-input.component.css']
 })
 export class DialogQuestion {

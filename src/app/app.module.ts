@@ -11,9 +11,8 @@ import { MenuComponent } from './template/menu/menu.component';
 import { ContentComponent } from './template/content/content.component';
 import { HomeComponent } from './view/home/home.component';
 import { BillOfMaterialComponent } from './view/bill-of-material/bill-of-material.component';
-import { RegisterInputComponent, DialogQuestion } from './view/register-input/register-input.component';
-import { ProcessComponent } from './view/process/process.component';
-import { DialogRegister } from './view/register-input/register-input.component';
+import { RegisterInputComponent, DialogInputRegister, DialogQuestion } from './view/register-input/register-input.component';
+import { ProcessComponent, DialogProcessRegister, DialogProcessQuestion } from './view/process/process.component';
 
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -39,8 +38,10 @@ import { MatGridListModule } from '@angular/material/grid-list';
     BillOfMaterialComponent,
     RegisterInputComponent,
     ProcessComponent,
-    DialogRegister,
-    DialogQuestion
+    DialogInputRegister,
+    DialogQuestion,
+    DialogProcessRegister,
+    DialogProcessQuestion
   ],
   imports: [
     FormsModule,
