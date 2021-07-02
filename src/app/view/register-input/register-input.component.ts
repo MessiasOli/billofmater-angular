@@ -1,5 +1,5 @@
 
-import { RepositoryService } from './../../services/repository.service';
+import { RepositoryService } from '../../database/repository.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Material } from '../../model/material';
 import { Component, Inject, OnInit } from '@angular/core';

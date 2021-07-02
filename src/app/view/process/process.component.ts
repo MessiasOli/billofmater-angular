@@ -1,13 +1,12 @@
+import { ProcessService } from './../../services/process.service';
 import { Process } from './../../model/process';
-
-import { MemoryService } from '../../services/memory.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { SwitchWaitService } from '../../services/switch-wait.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Material } from 'src/app/model/material';
 import { FormControl, Validators } from '@angular/forms';
 import { MyErrorStateMatcher } from '../register-input/register-input.component';
-import { RepositoryService } from 'src/app/services/repository.service';
+import { RepositoryService } from 'src/app/database/repository.service';
 import { MatTable } from '@angular/material/table';
 import { ViewChild } from '@angular/core';
 
@@ -19,7 +18,7 @@ import { ViewChild } from '@angular/core';
 export class ProcessComponent implements OnInit {
 
   constructor(
-    private repository: MemoryService, 
+    private service: ProcessService,
     private wait : SwitchWaitService,
     public dialog : MatDialog
   ) { }
@@ -29,9 +28,9 @@ export class ProcessComponent implements OnInit {
   newProcess: boolean = false
   processForEdit?: Process
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.wait.switchWait();
-    this.process = this.repository.GetAllProcess()
+    this.process = await this.service.FildAll()
     this.wait.switchWait();
   }
 
@@ -58,12 +57,12 @@ export class ProcessComponent implements OnInit {
       if(!this.IsEmpty(result)){
         if(this.processForEdit)
         {
-          await this.repository.AddMaterial(result)
+          await this.service.Add(result)
         }
         else
         {
           console.log("Material editado")
-          await this.repository.UpdateMaterials(result)
+          await this.service.Update(result)
         }
 
         await this.loadProcess();

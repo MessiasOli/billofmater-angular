@@ -1,7 +1,7 @@
 import { Material } from '../model/material';
 import { Injectable } from '@angular/core';
 import { Process } from '../model/process';
-import { IRepository } from "./interface/IRepository"
+import { IRepository } from "../interface/IRepository"
 
 @Injectable({
   providedIn: 'root'

@@ -1,5 +1,5 @@
 import axios from "axios"
-import { IRepository } from './interface/IRepository';
+import { IRepository } from '../interface/IRepository';
 import { Injectable } from '@angular/core';
 import { Material } from '../model/material';
 import { Process } from '../model/process';

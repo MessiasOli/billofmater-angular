@@ -1,5 +1,6 @@
-import { Process } from '../../model/process';
-import { Material } from '../../model/material';
+import { Process } from '../model/process';
+import { Material } from '../model/material';
+
 export interface IRepository {
   AddMaterial(mat:Material): Promise<boolean>
   GetAllMaterials(id: string):Promise<Material[]>
