@@ -89,10 +89,12 @@ export class MemoryService implements IRepository {
     this.repoProcess.push(process)
     return true;
   }
+
   async GetAllProcess(): Promise<Process[]> {
     return this.repoProcess
   }
-  GetProcess(id: string): Process {
+
+  async GetProcess(id: string): Promise<Process> {
     let process = this.repoProcess.find(p => p.id == id)
     return process ? process : new Process();
   }

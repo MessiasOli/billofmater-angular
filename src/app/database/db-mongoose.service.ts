@@ -43,7 +43,6 @@ export class DbMongooseService implements IRepository {
     let listMat :Material[] = []
     await this.api.get(`/material`)
       .then(res => res.data).then(data => {
-        console.log('daata :>> ', data);
         listMat = data;
       })
       .catch(console.log)
@@ -55,7 +54,6 @@ export class DbMongooseService implements IRepository {
     let listMat :Material[] = []
     await this.api.get(`/material`)
       .then(res => res.data).then(data => {
-        console.log('daata :>> ', data);
         listMat = data;
       })
       .catch(console.log)
@@ -70,7 +68,6 @@ export class DbMongooseService implements IRepository {
     let result:boolean = false;
     await this.api.delete(`/material/${idProcess}/${id}`)
     .then(res => res.data).then(data => {
-      console.log('data :>> ', data);
       result = true
     })
     .catch(err => {
@@ -89,7 +86,6 @@ export class DbMongooseService implements IRepository {
       unitmensurement: mat.unitmensurement
     }
     
-    console.log('mat :>> ', matForUpdate);
     await this.api.put(`/material`, matForUpdate)
       .then(res => {console.log(res); return res.data}).then(data => {
       })
@@ -126,15 +122,22 @@ export class DbMongooseService implements IRepository {
       return process
   }
 
-  GetProcess(id: string): Process {
-    throw new Error('Method not implemented.');
+  async GetProcess(id: string): Promise<Process> {
+    let result: Process = new Process
+    await this.api.get(`/process/${id}`)
+    .then(res => res.data).then(data => {
+      result = data[0];
+    })
+    .catch(err => {
+      console.log(err)
+    })
+    return result;
   }
 
   async DeleteProcess(id: string): Promise<boolean> {
     let result: boolean = false
     await this.api.delete(`/process/${id}`)
     .then(res => res.data).then(data => {
-      console.log('data :>> ', data);
       result = true;
     })
     .catch(err => {
@@ -152,7 +155,6 @@ export class DbMongooseService implements IRepository {
       value: process.value
     }
 
-    console.log('pro :>> ', pro);
     await this.api.put(`/process`, pro)
       .then(res => {console.log(res); return res.data}).then(data => {
       })

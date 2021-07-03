@@ -37,15 +37,14 @@ export class RegisterInputComponent implements OnInit {
   @ViewChild(MatTable) table !: MatTable<Material>;
 
   constructor(
-      private serviceMat: MeterialService, 
-      private servicePro: ProcessService, 
+      private service: MeterialService, 
       private wait : SwitchWaitService,
       public dialog : MatDialog,
       private tools : ToolsService
   ) { }
   
   async ngOnInit(): Promise<void> {
-    this.process = await this.servicePro.FildAll();
+    this.process = await this.service.getProcess();
     this.loadMaterials()
   }
 
@@ -68,7 +67,7 @@ export class RegisterInputComponent implements OnInit {
       if(this.newMaterial)
       {
         result.idprocess = this.selectedProcessId
-        if(await this.serviceMat.Add(result))
+        if(await this.service.Add(result))
           this.tools.alert("Material adicionado com sucesso!")
         else
           this.tools.alertError()
@@ -76,7 +75,7 @@ export class RegisterInputComponent implements OnInit {
       else
       {
         console.log("Material editado")
-        if(await this.serviceMat.Update(result))
+        if(await this.service.Update(result))
           this.tools.alert("Material Atualizado com sucesso!")
         else
           this.tools.alertError()
@@ -93,7 +92,7 @@ export class RegisterInputComponent implements OnInit {
   async loadMaterials() {
     this.wait.switchWait();
     this.materials = []
-    this.materials = await this.serviceMat.FindAllByProcess(this.selectedProcessId);
+    this.materials = await this.service.FindAllByProcess(this.selectedProcessId);
     this.wait.switchWait();
   }
 
@@ -105,7 +104,7 @@ export class RegisterInputComponent implements OnInit {
       if (result){
         let matToDelete: Material = this.materials.find(m => m.idmaterial = idmaterial) || new Material
 
-        if(await this.serviceMat.Remove(matToDelete))
+        if(await this.service.Remove(matToDelete))
           this.tools.alert("Material deletado com sucesso!")
         else
           this.tools.alertError()

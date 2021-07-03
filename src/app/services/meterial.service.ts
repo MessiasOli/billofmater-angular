@@ -1,3 +1,4 @@
+import { Process } from './../model/process';
 import { RepositoryService } from 'src/app/database/repository.service';
 import { Service } from './../interface/IService';
 import { Injectable } from '@angular/core';
@@ -9,6 +10,10 @@ import { Material } from '../model/material';
 export class MeterialService implements Service<Material> {
   constructor(private repository: RepositoryService) { }
   
+  async getProcess():Promise<Process[]>  {
+    return await this.repository.GetAllProcess();
+  }
+
   async Add(mat: Material): Promise<boolean> {
     return await this.repository.AddMaterial(mat);
   }

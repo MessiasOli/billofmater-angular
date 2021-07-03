@@ -11,7 +11,7 @@ export interface IRepository {
 
   AddProcess(process:Process): Promise<boolean>
   GetAllProcess():Promise<Process[]>
-  GetProcess(id: string):Process
+  GetProcess(id: string):Promise<Process>
   DeleteProcess(id: string):Promise<boolean>
   UpdateProcess(process:Process):Promise<Process>
 }
