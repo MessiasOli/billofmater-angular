@@ -40,8 +40,8 @@ export class RegisterInputComponent implements OnInit {
       public dialog : MatDialog,
   ) { }
   
-  ngOnInit(): void {
-    this.process = this.repository.GetAllProcess();
+  async ngOnInit(): Promise<void> {
+    this.process = await this.repository.GetAllProcess();
     this.loadMaterials()
   }
 

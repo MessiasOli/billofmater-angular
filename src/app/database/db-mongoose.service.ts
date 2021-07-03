@@ -87,11 +87,28 @@ export class DbMongooseService implements IRepository {
     return matForUpdate
   }
 
-  AddProcess(process: Process): boolean {
-    throw new Error('Method not implemented.');
+  async AddProcess(process: Process): Promise<boolean> {
+    await axios.post(`${URL_API}/process`, process)
+      .then(res => {console.log(res); return res.data}).then(data => {
+        console.log('daata :>> ', data);
+        return true
+      })
+      .catch(err => {
+        console.log(err)
+        return false
+      })
+      return false
   }
-  GetAllProcess(): Process[] {
-    return this.processList;
+  async GetAllProcess(): Promise<Process[]> {
+    await axios.get(`${URL_API}/process`)
+      .then(res => {return res.data}).then(data => {
+        return data;
+      })
+      .catch(err => {
+        console.log(err)
+        return []
+      })
+      return []
   }
   GetProcess(id: string): Process {
     throw new Error('Method not implemented.');
@@ -99,7 +116,7 @@ export class DbMongooseService implements IRepository {
   DeleteProcess(id: string): void {
     throw new Error('Method not implemented.');
   }
-  UpdateProcess(process: Process): Process {
+  UpdateProcess(process: Process): Promise<Process> {
     throw new Error('Method not implemented.');
   }
 }

@@ -9,9 +9,10 @@ import { Process } from '../model/process';
 export class ProcessService implements Service<Process> {
 
   constructor(private repository: RepositoryService) { }
-  Add(any: Process): Promise<boolean> {
-    throw new Error('Method not implemented.');
+  async Add(process: Process): Promise<boolean> {
+    return this.repository.AddProcess(process)
   }
+
   Remove(any: Process): Promise<boolean> {
     throw new Error('Method not implemented.');
   }

@@ -74,11 +74,11 @@ export class MemoryService implements IRepository {
   }
 
 
-  AddProcess(process: Process): boolean{
+  async AddProcess(process: Process): Promise<boolean>{
     this.repoProcess.push(process)
     return true;
   }
-  GetAllProcess(): Process[] {
+  async GetAllProcess(): Promise<Process[]> {
     return this.repoProcess
   }
   GetProcess(id: string): Process {
@@ -88,7 +88,7 @@ export class MemoryService implements IRepository {
   DeleteProcess(id: string): void {
     this.repoProcess = this.repoProcess.filter(p => p.id == id)
   }
-  UpdateProcess(process: Process): Process {
+  async UpdateProcess(process: Process): Promise<Process> {
     this.repoProcess.forEach(p =>{
       if(p.id == process.id)
         p = {...process}

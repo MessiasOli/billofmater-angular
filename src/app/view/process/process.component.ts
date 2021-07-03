@@ -1,9 +1,9 @@
+import { Service } from './../../interface/IService';
 import { ProcessService } from './../../services/process.service';
 import { Process } from './../../model/process';
 import { Component, Inject, OnInit } from '@angular/core';
 import { SwitchWaitService } from '../../services/switch-wait.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Material } from 'src/app/model/material';
 import { FormControl, Validators } from '@angular/forms';
 import { MyErrorStateMatcher } from '../register-input/register-input.component';
 import { RepositoryService } from 'src/app/database/repository.service';
@@ -22,7 +22,7 @@ export class ProcessComponent implements OnInit {
     private wait : SwitchWaitService,
     public dialog : MatDialog
   ) { }
-  @ViewChild(MatTable) table !: MatTable<Material>;
+  @ViewChild(MatTable) table !: MatTable<Process>;
   displayedColumns: string[] = [ "edit", "id" , "process", "value", "unitmensurement"];
   process: Process[] = []
   newProcess: boolean = false
@@ -42,36 +42,33 @@ export class ProcessComponent implements OnInit {
       this.newProcess = false
     }
 
-      const dialogRef = this.dialog.open(
-        DialogProcessRegister, 
-        {
-          width: '500px',
-          data: this.processForEdit
-        }
-    );
+    const dialogRef = this.dialog.open(
+      DialogProcessRegister, 
+      {
+        width: '500px',
+        data: this.processForEdit
+    });
     dialogRef.afterClosed().subscribe( async result => {
       if (!result)
         return
       console.log('result :>> ', result);
 
-      if(!this.IsEmpty(result)){
-        if(this.processForEdit)
-        {
-          await this.service.Add(result)
-        }
-        else
-        {
-          console.log("Material editado")
-          await this.service.Update(result)
-        }
-
-        await this.loadProcess();
-        if (this.table) {
-          this.table.setNoDataRow(null)
-          this.table.renderRows()
-        }
-        console.log('Finalizado a atualização :>> ', this.process);
+      if(this.processForEdit)
+      {
+        await this.service.Add(result)
       }
+      else
+      {
+        console.log("Material editado")
+        await this.service.Update(result)
+      }
+
+      await this.loadProcess();
+      if (this.table) {
+        this.table.setNoDataRow(null)
+        this.table.renderRows()
+      }
+      console.log('Finalizado a atualização :>> ', this.process);
     });
   }
 
@@ -87,10 +84,6 @@ export class ProcessComponent implements OnInit {
     return []
   }
 
-  IsEmpty(process: Process):boolean{
-    return true
-  }
-
 }
 
 @Component({
@@ -100,35 +93,33 @@ export class ProcessComponent implements OnInit {
 })
 export class DialogProcessRegister implements OnInit {
   constructor(
-    public repository : RepositoryService,
+    public service : ProcessService,
     public dialogRef:  MatDialogRef<DialogProcessRegister>,
-    @Inject(MAT_DIALOG_DATA) public material: Material
+    @Inject(MAT_DIALOG_DATA) public process: Process
   ) {}
 
   ngOnInit(): void {
-    this.newMaterial = this.material.idmaterial ? false : true
-    if(!this.newMaterial){
-      this.idmaterial.disable();
+    this.newProcess = this.process.id ? false : true
+    if(!this.newProcess){
+      this.idProcess.disable();
     }
   }
 
-  idmaterial = new FormControl('',[ Validators.required])
+  idProcess = new FormControl('',[ Validators.required])
   description = new FormControl('',[Validators.required])
-  price = new FormControl('',[Validators.required])
-  specificvalue = new FormControl('',[Validators.required])
+  value = new FormControl('',[Validators.required])
   unitmensurement = new FormControl('',[Validators.required])
   matcher = new MyErrorStateMatcher();
-  public materialConflicted: string = ''
+  public processConflicted: string = ''
   public idValidated: boolean = false;
-  newMaterial : boolean = false;
+  newProcess : boolean = false;
 
   async validateId():Promise<boolean>{
     let isInvalid = false
-    let idProcess = this.material.idprocess
-    await this.repository.GetAllMaterials(idProcess).then(data => {
-      data.forEach(mat => {
-        if (mat.idmaterial == this.material.idmaterial){
-          this.materialConflicted = mat.description;
+    await this.service.FildAll().then(data => {
+      data.forEach(p => {
+        if (p.id == this.process.id){
+          this.processConflicted = p.process;
           isInvalid = true
         }
       })
@@ -138,7 +129,7 @@ export class DialogProcessRegister implements OnInit {
 
   async onClick(res:boolean) { 
     console.log('res :>> ', res);
-    if(res && await this.validateId() && this.newMaterial){
+    if(res && await this.validateId() && this.newProcess){
       this.idValidated = true
       return
     }
@@ -148,11 +139,11 @@ export class DialogProcessRegister implements OnInit {
     }
 
     if(this.checkAllFieldsOK()){
-      console.log('material editado *** :>> ', this.material);
-      this.dialogRef.close({...this.material});
+      console.log('material editado *** :>> ', this.process);
+      this.dialogRef.close({...this.process});
     }
 
-    this.material = new Material;
+    this.process = new Process;
   }
 
   onKewDown(event:any){
@@ -160,10 +151,9 @@ export class DialogProcessRegister implements OnInit {
   }
 
   checkAllFieldsOK():boolean{
-    if (this.idmaterial.status == "INVALID" ||
+    if (this.idProcess.status == "INVALID" ||
         this.description.status == "INVALID" ||
-        this.price.status == "INVALID" ||
-        this.specificvalue.status == "INVALID" ||
+        this.value.status == "INVALID" ||
         this.unitmensurement.status == "INVALID")
       return false
     return true

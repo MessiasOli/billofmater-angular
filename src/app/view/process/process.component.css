@@ -3,3 +3,19 @@
   justify-content: space-between;
   padding: 2px 5px 0px 5px;
 }
+
+
+.form .mat-form-field{
+  margin-left: 8px;
+  width: 100%;
+}
+
+.conflicId{
+  padding-left: 10.5px;
+  color: red;
+  font-size: 0.8rem;
+}
+
+.field-invalid{
+  background-color: #ff000050;
+}

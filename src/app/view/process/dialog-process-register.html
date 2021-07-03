@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Registro de Produto</h1>
+<h1 mat-dialog-title>Registro de Processo</h1>
 <div mat-dialog-content>
     <span class='form'>
       <mat-grid-list cols="2" rowHeight="70px">
@@ -6,12 +6,12 @@
           <mat-form-field appearance="fill">
             <mat-label>Descrição</mat-label>
             <input 
-              [(ngModel)]="material.description" 
+              [(ngModel)]="process.process" 
               [formControl]="description"
               [errorStateMatcher]="matcher"
               matInput>
             <mat-error *ngIf="description.hasError('required')">
-              Insira uma descrição para seu material.
+              Insira uma descrição para seu processo.
             </mat-error>
           </mat-form-field>
         </mat-grid-tile>
@@ -22,38 +22,26 @@
             <input 
               [ngClass]="{'field-invalid': idValidated }"
               (keydown)="onKewDown($event)"
-              [(ngModel)]="material.idmaterial"
-              [formControl]="idmaterial"
+              [(ngModel)]="process.id"
+              [formControl]="idProcess"
               [errorStateMatcher]="matcher"
               matInput>
-              <mat-error *ngIf="idmaterial.hasError('required')">
-                Insira id para seu material.
+              <mat-error *ngIf="idProcess.hasError('required')">
+                Insira id para seu processo.
               </mat-error>
             </mat-form-field>
-          <mat-form-field appearance="fill">
-            <mat-label>Valor específico</mat-label>
-            <input 
-              type="number" min="0"
-              [(ngModel)]="material.specificvalue"
-              [formControl]="specificvalue"
-              [errorStateMatcher]="matcher"
-              matInput>
-              <mat-error *ngIf="specificvalue.hasError('required')">
-                É necessário um valor específico válido.
-              </mat-error>
-          </mat-form-field>
         </mat-grid-tile>
 
         <mat-grid-tile [colspan]="2">
           <mat-form-field appearance="fill">
-            <mat-label>Preço</mat-label>
+            <mat-label>Valor</mat-label>
             <input 
               type="number" min="0"
-              [(ngModel)]="material.price" 
-              [formControl]="price"
+              [(ngModel)]="process.value" 
+              [formControl]="value"
               [errorStateMatcher]="matcher"
               matInput>
-              <mat-error *ngIf="price.hasError('required')">
+              <mat-error *ngIf="value.hasError('required')">
                 É necessário um valor válido.
               </mat-error>
           </mat-form-field>
@@ -61,7 +49,7 @@
           <mat-form-field appearance="fill">
             <mat-label>Unidade de medida</mat-label>
             <input 
-              [(ngModel)]="material.unitmensurement" 
+              [(ngModel)]="process.unitmensurement" 
               [formControl]="unitmensurement"
               [errorStateMatcher]="matcher"
               matInput>
@@ -74,7 +62,7 @@
     </span>
 </div>
 <span class="conflicId" *ngIf="idValidated">
-  Id igual ao material <strong>{{materialConflicted}}</strong>, tente escolher outro id. 
+  Id igual ao process <strong>{{processConflicted}}</strong>, tente escolher outro id. 
 </span>
 <div mat-dialog-actions>
   <button mat-button (click)="onClick(false)">Cancelar</button>

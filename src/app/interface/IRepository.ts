@@ -3,14 +3,14 @@ import { Material } from '../model/material';
 
 export interface IRepository {
   AddMaterial(mat:Material): Promise<boolean>
-  GetAllMaterials(id: string):Promise<Material[]>
+  GetAllMaterials(id: string): Promise<Material[]>
   GetMaterial(id: string):Material
   DeleteMaterials(id: string,  idProcess: string):void
   UpdateMaterials(mat:Material):Promise<Material>
 
-  AddProcess(process:Process): boolean
-  GetAllProcess():Process[]
+  AddProcess(process:Process): Promise<boolean>
+  GetAllProcess():Promise<Process[]>
   GetProcess(id: string):Process
   DeleteProcess(id: string):void
-  UpdateProcess(process:Process):Process
+  UpdateProcess(process:Process):Promise<Process>
 }
