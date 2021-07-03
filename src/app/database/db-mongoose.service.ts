@@ -1,17 +1,28 @@
-import axios from "axios"
+
+import axios, { AxiosInstance }  from "axios"
 import { IRepository } from '../interface/IRepository';
 import { Injectable } from '@angular/core';
 import { Material } from '../model/material';
 import { Process } from '../model/process';
 
-export var URL_API = "https://b-bom-ra-sc3009572.herokuapp.com/api"
+export var URL_API:string = "https://b-bom-ra-sc3009572.herokuapp.com/api"
 //export var URL_API = "http://localhost:8080/api"
 @Injectable({
   providedIn: 'root'
 })
 export class DbMongooseService implements IRepository {
   processList: Process[] = []
+  api: AxiosInstance
+
   constructor() {
+    this.api = axios.create({
+      baseURL: URL_API,
+      headers: {
+        'Access-Control-Allow-Origin' : '*',
+        'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+      }
+    })
+
     this.processList = [
       {
         id : "1",
@@ -29,7 +40,7 @@ export class DbMongooseService implements IRepository {
    }
 
   async AddMaterial(mat: Material):Promise<boolean> {
-    await axios.post(`${URL_API}/material`, mat)
+    await this.api.post(`/material`, mat)
       .then(res => res.data).then(data => {
         console.log('data :>> ', data);
       })
@@ -44,7 +55,7 @@ export class DbMongooseService implements IRepository {
 
   async GetAllMaterials(id: string): Promise<Material[]> {
     let listMat :Material[] = []
-    await axios.get(`${URL_API}/material`)
+    await this.api.get(`/material`)
       .then(res => res.data).then(data => {
         console.log('daata :>> ', data);
         listMat = data;
@@ -58,7 +69,7 @@ export class DbMongooseService implements IRepository {
   }
 
   async DeleteMaterials(id: string, idProcess: string): Promise<void> {
-    await axios.delete(`${URL_API}/material/${id}/${idProcess}`)
+    await this.api.delete(`/material/${id}/${idProcess}`)
     .then(res => res.data).then(data => {
       console.log('data :>> ', data);
     })
@@ -79,7 +90,7 @@ export class DbMongooseService implements IRepository {
     matForUpdate.unitmensurement = mat.unitmensurement;
 
     console.log('mat :>> ', matForUpdate);
-    await axios.put(`${URL_API}/material`, matForUpdate)
+    await this.api.put(`/material`, matForUpdate)
       .then(res => {console.log(res); return res.data}).then(data => {
         console.log('daata :>> ', data);
       })
