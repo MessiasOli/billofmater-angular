@@ -1,6 +1,6 @@
+import { ToolsService } from './../../services/tools.service';
+import { ProcessService } from './../../services/process.service';
 import { Question } from './../../model/question';
-
-import { RepositoryService } from '../../database/repository.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Material } from '../../model/material';
 import { Component, Inject, OnInit } from '@angular/core';
@@ -10,6 +10,7 @@ import { MatTable } from '@angular/material/table';
 import { ViewChild } from '@angular/core';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { MeterialService } from 'src/app/services/meterial.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState( control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -36,13 +37,15 @@ export class RegisterInputComponent implements OnInit {
   @ViewChild(MatTable) table !: MatTable<Material>;
 
   constructor(
-      private repository: RepositoryService, 
+      private serviceMat: MeterialService, 
+      private servicePro: ProcessService, 
       private wait : SwitchWaitService,
       public dialog : MatDialog,
+      private tools : ToolsService
   ) { }
   
   async ngOnInit(): Promise<void> {
-    this.process = await this.repository.GetAllProcess();
+    this.process = await this.servicePro.FildAll();
     this.loadMaterials()
   }
 
@@ -56,54 +59,57 @@ export class RegisterInputComponent implements OnInit {
 
       matForEdit.idprocess = this.selectedProcessId
       const dialogRef = this.dialog.open(
-        DialogInputRegister, 
-        {
-          width: '500px',
-          data: matForEdit
-        }
+        DialogInputRegister, { data: matForEdit }
     );
     dialogRef.afterClosed().subscribe( async result => {
       if (!result)
         return
-      console.log('result :>> ', result);
 
-      if(!this.IsEmpty(result)){
-        if(this.newMaterial)
-        {
-          result.idprocess = this.selectedProcessId
-          await this.repository.AddMaterial(result)
-        }
+      if(this.newMaterial)
+      {
+        result.idprocess = this.selectedProcessId
+        if(await this.serviceMat.Add(result))
+          this.tools.alert("Material adicionado com sucesso!")
         else
-        {
-          console.log("Material editado")
-          await this.repository.UpdateMaterials(result)
-        }
-
-        await this.loadMaterials();
-        if (this.table) {
-          this.table.setNoDataRow(null)
-          this.table.renderRows()
-        }
-        console.log('Finalizado a atualização :>> ', this.materials);
+          this.tools.alertError()
       }
-    });
+      else
+      {
+        console.log("Material editado")
+        if(await this.serviceMat.Update(result))
+          this.tools.alert("Material Atualizado com sucesso!")
+        else
+          this.tools.alertError()
+      }
+
+      await this.loadMaterials();
+      if (this.table) {
+        this.table.setNoDataRow(null)
+        this.table.renderRows()
+      }
+    })
   }
 
   async loadMaterials() {
     this.wait.switchWait();
     this.materials = []
-    this.materials = await this.repository.GetAllMaterials(this.selectedProcessId);
-    console.log('this.materials :>> ', this.materials);
+    this.materials = await this.serviceMat.FindAllByProcess(this.selectedProcessId);
     this.wait.switchWait();
   }
 
   async delete(idmaterial: string, description: string){
     const dialogRef = this.dialog.open( DialogQuestion, { 
-      width: '500px', 
       data: { question: "Deseja apagar apagar esse material: ", description: description } });
+      
     dialogRef.afterClosed().subscribe(async result => {
       if (result){
-        await this.repository.DeleteMaterials(this.selectedProcessId,idmaterial)
+        let matToDelete: Material = this.materials.find(m => m.idmaterial = idmaterial) || new Material
+
+        if(await this.serviceMat.Remove(matToDelete))
+          this.tools.alert("Material deletado com sucesso!")
+        else
+          this.tools.alertError()
+
         await this.loadMaterials()
         if (this.table) 
           this.table.renderRows()
@@ -114,27 +120,12 @@ export class RegisterInputComponent implements OnInit {
   update(idmaterial:string)
   {
     let matEdited : Material | undefined = this.materials.find(mat => mat.idmaterial == idmaterial)
-    console.log('matEdited :>> ', matEdited);
     if (matEdited)
       this.openDialogRegister({...matEdited})
   }
 
-  IsEmpty(mat : Material) {    
-    if (
-      !mat.idprocess &&
-      !mat.idmaterial &&
-      !mat.description &&
-      !mat.specificvalue &&
-      !mat.price &&
-      !mat.unitmensurement
-    )
-      return true;
-    return false;
-  }
-
   onChange(id:string){
     this.selectedProcessId = id
-    console.log('id :>> ', id);
     this.loadMaterials()
   }
 }
@@ -146,7 +137,7 @@ export class RegisterInputComponent implements OnInit {
 })
 export class DialogInputRegister implements OnInit {
   constructor(
-    public repository : RepositoryService,
+    public service : MeterialService,
     public dialogRef:  MatDialogRef<DialogInputRegister>,
     @Inject(MAT_DIALOG_DATA) public material: Material
   ) {}
@@ -169,21 +160,11 @@ export class DialogInputRegister implements OnInit {
   newMaterial : boolean = false;
 
   async validateId():Promise<boolean>{
-    let isInvalid = false
-    let idProcess = this.material.idprocess
-    await this.repository.GetAllMaterials(idProcess).then(data => {
-      data.forEach(mat => {
-        if (mat.idmaterial == this.material.idmaterial){
-          this.materialConflicted = mat.description;
-          isInvalid = true
-        }
-      })
-    })
-    return isInvalid
+    this.materialConflicted = await this.service.hasMaterial(this.material.idprocess, this.material.idmaterial)
+    return this.materialConflicted != ""
   }
 
   async onClick(res:boolean) { 
-    console.log('res :>> ', res);
     if(res && await this.validateId() && this.newMaterial){
       this.idValidated = true
       return
@@ -194,7 +175,6 @@ export class DialogInputRegister implements OnInit {
     }
 
     if(this.checkAllFieldsOK()){
-      console.log('material editado *** :>> ', this.material);
       this.dialogRef.close({...this.material});
     }
 

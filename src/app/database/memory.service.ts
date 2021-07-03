@@ -50,9 +50,15 @@ export class MemoryService implements IRepository {
     this.repoMaterials.push(mat)
     return true;
   }
-  async GetAllMaterials(idProcess:string): Promise<Material[]> {
+
+  async GetAllMaterials(): Promise<Material[]> {
+    return this.repoMaterials;
+  }
+
+  async GetAllMaterialsByProcess(idProcess:string): Promise<Material[]> {
     return this.repoMaterials.filter(mat => mat.idprocess == idProcess);
   }
+
   GetMaterial(id: string): Material {
     let mat = this.repoMaterials.find(mat => mat.idmaterial == id)
     return mat ? mat : new Material();

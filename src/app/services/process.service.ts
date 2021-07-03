@@ -19,7 +19,7 @@ export class ProcessService implements Service<Process> {
   }
 
   async CanRemoveProcess(pro: Process, forceDelete: boolean): Promise<number> {
-    let material: Material[] = await this.repository.GetAllMaterials(pro.id);
+    let material: Material[] = await this.repository.GetAllMaterialsByProcess(pro.id);
 
     if(!forceDelete && material.length > 0){
       return 1
@@ -41,7 +41,7 @@ export class ProcessService implements Service<Process> {
     return this.repository.GetAllProcess();
   }
 
-  Find(id: string): Promise<Process> {
-    throw new Error('Method not implemented.');
+  async Find(id: string): Promise<Process> {
+    return (await this.repository.GetAllProcess()).find(p => p.id == id) || new Process
   }
 }

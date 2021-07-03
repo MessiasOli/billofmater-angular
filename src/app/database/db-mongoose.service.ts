@@ -39,7 +39,19 @@ export class DbMongooseService implements IRepository {
       return true
   }
 
-  async GetAllMaterials(id: string): Promise<Material[]> {
+  async GetAllMaterials():Promise<Material[]>{
+    let listMat :Material[] = []
+    await this.api.get(`/material`)
+      .then(res => res.data).then(data => {
+        console.log('daata :>> ', data);
+        listMat = data;
+      })
+      .catch(console.log)
+    return listMat;
+
+  }
+
+  async GetAllMaterialsByProcess(id: string): Promise<Material[]> {
     let listMat :Material[] = []
     await this.api.get(`/material`)
       .then(res => res.data).then(data => {

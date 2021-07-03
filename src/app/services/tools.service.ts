@@ -22,4 +22,8 @@ export class ToolsService {
       duration: 5000,
     });
   }
+
+  alertError(){
+    this.alert("Ops! aconteceu alguma coisa...")
+  }
 }

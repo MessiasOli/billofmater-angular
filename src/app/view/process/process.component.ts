@@ -98,7 +98,7 @@ export class ProcessComponent implements OnInit {
                 this.reload();
                 this.tools.alert("Processo e materiais apagados com sucesso!")
               }
-              if(conflict == -1) this.alertError();
+              if(conflict == -1) this.tools.alertError();
             }
 
           })
@@ -107,7 +107,7 @@ export class ProcessComponent implements OnInit {
           this.reload();
           this.tools.alert("Processo apagado com sucesso!")
         }
-        if(conflict == -1) this.alertError()
+        if(conflict == -1) this.tools.alertError()
       }
     })
   }
@@ -123,11 +123,6 @@ export class ProcessComponent implements OnInit {
   async loadProcess():Promise<void>{
     this.process = await this.service.FildAll();
   }
-
-  alertError(){
-    this.tools.alert("Ops! aconteceu alguma coisa...")
-  }
-
 }
 
 @Component({
