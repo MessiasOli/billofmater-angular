@@ -58,9 +58,14 @@ export class MemoryService implements IRepository {
     return mat ? mat : new Material();
   }
 
-  DeleteMaterials(id: string, idProcess: string): void {
+  async DeleteMaterials(id: string, idProcess: string): Promise<boolean> {
+    let length = this.repoMaterials.length
     let index = this.repoMaterials.findIndex(mat => mat.idmaterial == id && mat.idprocess == idProcess)
     this.repoMaterials.splice(index, 1)
+
+    if(length == this.repoMaterials.length)
+      return false;
+    return true;
   }
 
   async UpdateMaterials(mat: Material): Promise<Material>{
@@ -85,9 +90,17 @@ export class MemoryService implements IRepository {
     let process = this.repoProcess.find(p => p.id == id)
     return process ? process : new Process();
   }
-  DeleteProcess(id: string): void {
-    this.repoProcess = this.repoProcess.filter(p => p.id == id)
+
+  async DeleteProcess(id: string): Promise<boolean> {
+    let length = this.repoProcess.length
+    let index = this.repoProcess.findIndex(p => p.id == id)
+    this.repoProcess.splice(index, 1)
+
+    if(length == this.repoProcess.length)
+      return false;
+    return true;
   }
+
   async UpdateProcess(process: Process): Promise<Process> {
     this.repoProcess.forEach(p =>{
       if(p.id == process.id)

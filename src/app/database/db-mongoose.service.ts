@@ -5,8 +5,8 @@ import { Injectable } from '@angular/core';
 import { Material } from '../model/material';
 import { Process } from '../model/process';
 
-export var URL_API:string = "https://b-bom-ra-sc3009572.herokuapp.com/api"
-//export var URL_API = "http://localhost:8080/api"
+//export var URL_API:string = "https://b-bom-ra-sc3009572.herokuapp.com/api"
+export var URL_API = "http://localhost:8080/api"
 @Injectable({
   providedIn: 'root'
 })
@@ -22,27 +22,13 @@ export class DbMongooseService implements IRepository {
         'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
       }
     })
-
-    this.processList = [
-      {
-        id : "1",
-        process: "Processo 1",
-        unitmensurement: "kg",
-        value: 15.55
-      },
-      {
-        id : "2",
-        process: "Processo 2",
-        unitmensurement: "kg",
-        value: 100
-      },
-    ]
-   }
+  }
 
   async AddMaterial(mat: Material):Promise<boolean> {
     await this.api.post(`/material`, mat)
       .then(res => res.data).then(data => {
         console.log('data :>> ', data);
+        return true
       })
       .catch(err => {
         console.log(err)
@@ -68,66 +54,97 @@ export class DbMongooseService implements IRepository {
     throw new Error('Method not implemented.');
   }
 
-  async DeleteMaterials(id: string, idProcess: string): Promise<void> {
-    await this.api.delete(`/material/${id}/${idProcess}`)
+  async DeleteMaterials(idProcess: string, id: string): Promise<boolean> {
+    let result:boolean = false;
+    await this.api.delete(`/material/${idProcess}/${id}`)
     .then(res => res.data).then(data => {
       console.log('data :>> ', data);
+      result = true
     })
     .catch(err => {
       console.log(err)
-    }
-    )
+    })
+    return result;
   }
 
   async UpdateMaterials(mat: Material): Promise<Material> {
-    let matForUpdate: Material = new Material () 
+    let matForUpdate: Material = {
+      idmaterial: mat.idmaterial,
+      idprocess: mat.idprocess,
+      description: mat.description,
+      price: mat.price,
+      specificvalue: mat.specificvalue,
+      unitmensurement: mat.unitmensurement
+    }
     
-    matForUpdate.idmaterial = mat.idmaterial;
-    matForUpdate.idprocess = mat.idprocess;
-    matForUpdate.description = mat.description;
-    matForUpdate.price = mat.price;
-    matForUpdate.specificvalue = mat.specificvalue;
-    matForUpdate.unitmensurement = mat.unitmensurement;
-
     console.log('mat :>> ', matForUpdate);
     await this.api.put(`/material`, matForUpdate)
       .then(res => {console.log(res); return res.data}).then(data => {
-        console.log('daata :>> ', data);
       })
       .catch(console.log)
     return matForUpdate
   }
 
   async AddProcess(process: Process): Promise<boolean> {
+    let result: boolean = false
     await axios.post(`${URL_API}/process`, process)
-      .then(res => {console.log(res); return res.data}).then(data => {
-        console.log('daata :>> ', data);
-        return true
+      .then(res => {
+        if(res.status == 200)
+          result = true
+        else
+          result = false
       })
       .catch(err => {
         console.log(err)
-        return false
+        result = false
       })
-      return false
+      return result
   }
+
   async GetAllProcess(): Promise<Process[]> {
+    let process : Process[] = []
     await axios.get(`${URL_API}/process`)
       .then(res => {return res.data}).then(data => {
-        return data;
+        process = data;
       })
       .catch(err => {
         console.log(err)
         return []
       })
-      return []
+      return process
   }
+
   GetProcess(id: string): Process {
     throw new Error('Method not implemented.');
   }
-  DeleteProcess(id: string): void {
-    throw new Error('Method not implemented.');
+
+  async DeleteProcess(id: string): Promise<boolean> {
+    let result: boolean = false
+    await this.api.delete(`/process/${id}`)
+    .then(res => res.data).then(data => {
+      console.log('data :>> ', data);
+      result = true;
+    })
+    .catch(err => {
+      console.log(err)
+      result = false
+    })
+    return result;
   }
-  UpdateProcess(process: Process): Promise<Process> {
-    throw new Error('Method not implemented.');
+
+  async UpdateProcess(process: Process): Promise<Process> {
+    let pro: Process = {
+      id: process.id,
+      process: process.process,
+      unitmensurement: process.unitmensurement,
+      value: process.value
+    }
+
+    console.log('pro :>> ', pro);
+    await this.api.put(`/process`, pro)
+      .then(res => {console.log(res); return res.data}).then(data => {
+      })
+      .catch(console.log)
+    return pro;
   }
 }

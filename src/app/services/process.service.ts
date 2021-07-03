@@ -1,3 +1,4 @@
+import { Material } from 'src/app/model/material';
 import { RepositoryService } from '../database/repository.service';
 import { Service } from './../interface/IService';
 import { Injectable } from '@angular/core';
@@ -13,15 +14,33 @@ export class ProcessService implements Service<Process> {
     return this.repository.AddProcess(process)
   }
 
-  Remove(any: Process): Promise<boolean> {
-    throw new Error('Method not implemented.');
+  async Remove(pro: Process): Promise<boolean> {
+    return await this.repository.DeleteProcess(pro.id);
   }
-  Update(any: Process): Promise<boolean> {
-    throw new Error('Method not implemented.');
+
+  async CanRemoveProcess(pro: Process, forceDelete: boolean): Promise<number> {
+    let material: Material[] = await this.repository.GetAllMaterials(pro.id);
+
+    if(!forceDelete && material.length > 0){
+      return 1
+    }
+
+    material.forEach(mat => {this.repository.DeleteMaterials(mat.idprocess, mat.idmaterial)})
+    if(await this.Remove(pro)){
+      return 0
+    }
+    else
+      return -1
   }
+
+  async Update(proEdited: Process): Promise<Process> {
+    return await this.repository.UpdateProcess(proEdited)
+  }
+
   async FildAll(): Promise<Process[]> {
-    return await this.repository.GetAllProcess();
+    return this.repository.GetAllProcess();
   }
+
   Find(id: string): Promise<Process> {
     throw new Error('Method not implemented.');
   }

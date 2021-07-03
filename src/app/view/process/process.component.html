@@ -19,10 +19,10 @@
         <ng-container matColumnDef="edit">
           <th width="150px" mat-header-cell *matHeaderCellDef> </th>
           <td mat-cell *matCellDef="let element">
-            <button (click)="update(element.idmaterial)" mat-icon-button color="primary" title="Editar linha">
+            <button (click)="update(element.id)" mat-icon-button color="primary" title="Editar linha">
               <mat-icon>edit</mat-icon>
             </button>
-            <button (click)="delete(element.idmaterial)" mat-icon-button color="accent" title="Apagar linha">
+            <button (click)="delete(element.id)" mat-icon-button color="accent" title="Apagar linha">
               <mat-icon>delete</mat-icon>
             </button>
           </td>

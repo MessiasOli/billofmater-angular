@@ -1,3 +1,4 @@
+import { Question } from './../../model/question';
 
 import { RepositoryService } from '../../database/repository.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -97,7 +98,9 @@ export class RegisterInputComponent implements OnInit {
   }
 
   async delete(idmaterial: string, description: string){
-    const dialogRef = this.dialog.open( DialogQuestion, { width: '500px', data: description });
+    const dialogRef = this.dialog.open( DialogQuestion, { 
+      width: '500px', 
+      data: { question: "Deseja apagar apagar esse material: ", description: description } });
     dialogRef.afterClosed().subscribe(async result => {
       if (result){
         await this.repository.DeleteMaterials(this.selectedProcessId,idmaterial)
@@ -221,7 +224,7 @@ export class DialogInputRegister implements OnInit {
 export class DialogQuestion {
   constructor(
     public dialogRef:  MatDialogRef<DialogQuestion>,
-    @Inject(MAT_DIALOG_DATA) public description: string 
+    @Inject(MAT_DIALOG_DATA) public model: Question,
     ) {}
   onClick(res: boolean): void { 
     this.dialogRef.close(res);

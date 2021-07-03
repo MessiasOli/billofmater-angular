@@ -9,6 +9,11 @@ import { BillOfMaterialComponent } from './view/bill-of-material/bill-of-materia
 
 const routes: Routes = [
   {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: "home"
+  },
+  {
     path: "*",
     redirectTo: "home"
   },

@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Atenção</h1>
 <div mat-dialog-content>
-  <h3>Deseja apagar o material: <strong>{{ description }}</strong> ?</h3>
+  <h3>{{ model.question }}<strong>{{ model.description }}</strong> ?</h3>
 </div>
 <div mat-dialog-actions>
   <button mat-flat-button (click)="onClick(false)">Não</button>
