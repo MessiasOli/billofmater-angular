@@ -31,7 +31,6 @@ export class ProcessComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.wait.switchWait();
     this.process = await this.service.FildAll()
-    console.log('this.process :>> ', this.process);
     this.wait.switchWait();
   }
 

@@ -21,24 +21,33 @@ export class BillOfMaterialService {
     let process :Process = await this.repository.GetProcess(idProcess)
     let materials:Material[] = await this.repository.GetAllMaterialsByProcess(idProcess)
     let report: BillOfMaterial[] = []
-
-    console.log('process :>> ', process);
-    console.log('materials :>> ', materials);
+    let total: number = 0
 
     materials.forEach(mat=> {
-      let bom: BillOfMaterial = new BillOfMaterial
-      bom.id = mat.idmaterial
-      bom.description = mat.description
-      bom.amount = process.value * mat.specificvalue
-      bom.specificvalue = mat.specificvalue
-      bom.value = process.value * mat.specificvalue * mat.price
-      bom.specificunit = `${mat.unitmensurement}/${process.unitmensurement}`
+      let bom: BillOfMaterial = {
+        id: mat.idmaterial,
+        description: mat.description,
+        amount: process.value * mat.specificvalue,
+        specificvalue: mat.specificvalue,
+        value: process.value * mat.specificvalue * mat.price,
+        specificunit: `${mat.unitmensurement}/${process.unitmensurement}`
+      }
+      total += bom.value
 
-      console.log('bom :>> ', bom);
-
-        report.push(bom);
+      report.push(bom);
     });
 
+    if(report.length == 0)
+      return []
+
+    let bom: BillOfMaterial = {
+      id: "",
+      amount: "TOTAL",
+      specificunit: "",
+      description: "",
+      value: total
+    }
+    report.push(bom);
     return report
   }
 

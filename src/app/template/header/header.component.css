@@ -59,7 +59,8 @@ h2{
 }
 
 .msg>p{
-  width: 300px;
+  width: 350px;
+  margin-top: 5px;
   text-align: center;
   font-size: 1.1rem;
   color: #fff;

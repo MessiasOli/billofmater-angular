@@ -26,5 +26,12 @@
         <span>Lista técnica</span>
       </a>
     </li>
+
+    <li (click)="selected('resume')" [ngClass]="{ 'icon-button': true, 'selected': buttons.resume  == true}">
+      <a class='link'  routerLink="/resume">
+        <img class="icon" src="../../assets/paid.svg" alt="Resumo">
+        <span>Resumo</span>
+      </a>
+    </li>
   </ul>
 </nav>

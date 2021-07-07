@@ -25,5 +25,8 @@ export class HeaderComponent implements OnInit {
     if(caption == "billofmaterial"){
       this.currentMessage = "A melhor preparação para amanhã é fazendo o seu melhor hoje."
     }
+    if(caption == "resume"){
+      this.currentMessage = "Seja paciente e confie no processo. Você não come a fruta no mesmo dia que planta a semente."
+    }
   }
 }

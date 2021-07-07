@@ -44,8 +44,12 @@ export class RegisterInputComponent implements OnInit {
   ) { }
   
   async ngOnInit(): Promise<void> {
+    this.wait.switchWait();
     this.process = await this.service.getProcess();
-    this.loadMaterials()
+    this.selectedProcess = this.process[0].process
+    this.selectedProcessId = this.process[0].id
+    await this.loadMaterials()
+    this.wait.switchWait();
   }
 
   openDialogRegister(matForEdit?: Material){

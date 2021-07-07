@@ -1,3 +1,4 @@
+import { ResumeComponent } from './view/resume/resume.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -33,6 +34,10 @@ const routes: Routes = [
     path:"billofmaterial",
     component: BillOfMaterialComponent
   },
+  {
+    path:"resume",
+    component: ResumeComponent
+  }
 ];
 
 @NgModule({

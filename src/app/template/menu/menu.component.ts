@@ -31,5 +31,6 @@ export class MenuComponent implements OnInit {
     this.buttons.process = caption == "process"
     this.buttons.registerInput = caption == "registerInput"
     this.buttons.billofmaterial = caption == "billofmaterial"
+    this.buttons.resume = caption == "resume"
   }
 }

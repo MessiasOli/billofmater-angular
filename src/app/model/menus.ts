@@ -3,4 +3,5 @@ export class Menus {
     process: Boolean = false;
     registerInput: Boolean = false;
     billofmaterial: Boolean = false;
+    resume: Boolean = false;
 }

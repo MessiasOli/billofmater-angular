@@ -3,7 +3,7 @@ import { BillOfMaterial } from './../../model/bill-of-material';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import { Process } from 'src/app/model/process';
-import { summaryFileName } from '@angular/compiler/src/aot/util';
+import { SwitchWaitService } from 'src/app/services/switch-wait.service';
 
 @Component({
   selector: 'app-bill-of-material',
@@ -13,7 +13,8 @@ import { summaryFileName } from '@angular/compiler/src/aot/util';
 export class BillOfMaterialComponent implements OnInit {
 
   constructor(
-    private service: BillOfMaterialService
+    private service: BillOfMaterialService,
+    private wait : SwitchWaitService,
   ) { }
 
   displayedColumns: string[] = [ "id",  "description",  "specificvalue",  "amount",  "value",  "specificunit" ];
@@ -24,15 +25,19 @@ export class BillOfMaterialComponent implements OnInit {
   @ViewChild(MatTable) table !: MatTable<BillOfMaterial>;
 
   async ngOnInit(): Promise<void> {
+    this.wait.switchWait();
     this.process = await this.service.getProcess();
+    this.wait.switchWait();
     this.selectedProcess = this.process[0].process
-    this.loadReport(this.process[0].id);
+    await this.loadReport(this.process[0].id);
   }
 
   async loadReport(id:string){
+    this.wait.switchWait();
     this.report = await this.service.getReport(id);
     this.total = 0;
     this.report.forEach(r => {this.total += r.value})
+    this.wait.switchWait();
   }
 
 }

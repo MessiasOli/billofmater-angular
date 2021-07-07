@@ -26,6 +26,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatGridListModule } from '@angular/material/grid-list';
+import { CustomCurrencyPipe } from './tools/custom-currency.pipe';
+import { ResumeComponent } from './view/resume/resume.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { MatGridListModule } from '@angular/material/grid-list';
     DialogInputRegister,
     DialogQuestion,
     DialogProcessRegister,
-    DialogProcessQuestion
+    DialogProcessQuestion,
+    CustomCurrencyPipe,
+    ResumeComponent
   ],
   imports: [
     FormsModule,

@@ -1,0 +1,44 @@
+<span>
+  <span class="header">
+    <h2>{{"resumo dos processos" | titlecase}}</h2>
+  </span>
+  <div class="table">
+    <div *ngIf="resume.length; else elseBlock">
+      <table mat-table [dataSource]="resume" class="mat-elevation-z8">
+      
+        <ng-container matColumnDef="id">
+          <th width="100px" mat-header-cell *matHeaderCellDef> id </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="process">
+          <th width="37%" mat-header-cell *matHeaderCellDef> Descrição </th>
+          <td mat-cell *matCellDef="let element"> {{element.process}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="value">
+          <th width="200px" mat-header-cell *matHeaderCellDef> Valor </th>
+          <td mat-cell *matCellDef="let element"> {{element.value}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="unitmensurement">
+          <th width="200px" mat-header-cell *matHeaderCellDef> Unidade de medida </th>
+          <td mat-cell *matCellDef="let element"> {{element.unitmensurement}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="amount">
+          <th width="200px" mat-header-cell *matHeaderCellDef> Total do processo </th>
+          <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>    
+    </div>
+    <ng-template class="else" #elseBlock>
+      <p class="msg">
+        Não há processos cadastrados.
+      </p>
+    </ng-template>
+  </div>
+</span>
