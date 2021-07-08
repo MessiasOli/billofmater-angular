@@ -27,9 +27,9 @@ export class BillOfMaterialService {
       let bom: BillOfMaterial = {
         id: mat.idmaterial,
         description: mat.description,
-        amount: process.value * mat.specificvalue,
+        amount: process.value ? process.value * mat.specificvalue : 0,
         specificvalue: mat.specificvalue,
-        value: process.value * mat.specificvalue * mat.price,
+        value: process.value ? process.value * mat.specificvalue * mat.price : 0,
         specificunit: `${mat.unitmensurement}/${process.unitmensurement}`
       }
       total += bom.value
@@ -42,8 +42,8 @@ export class BillOfMaterialService {
 
     let bom: BillOfMaterial = {
       id: "",
-      amount: "TOTAL",
-      specificunit: "",
+      amount: "",
+      specificunit: "TOTAL",
       description: "",
       value: total
     }

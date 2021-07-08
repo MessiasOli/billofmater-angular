@@ -1,6 +1,6 @@
 export class Process {
   id !: string;
   process !: string;
-  value !: number;
+  value ?: number;
   unitmensurement !: string;
 }

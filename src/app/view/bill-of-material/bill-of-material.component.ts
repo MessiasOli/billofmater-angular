@@ -17,7 +17,7 @@ export class BillOfMaterialComponent implements OnInit {
     private wait : SwitchWaitService,
   ) { }
 
-  displayedColumns: string[] = [ "id",  "description",  "specificvalue",  "amount",  "value",  "specificunit" ];
+  displayedColumns: string[] = [ "id",  "description",  "specificvalue",  "amount",  "specificunit", "value"];
   process : Process[] = []
   selectedProcess: string = "";
   report: BillOfMaterial [] = []

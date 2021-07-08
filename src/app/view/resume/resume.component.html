@@ -7,7 +7,7 @@
       <table mat-table [dataSource]="resume" class="mat-elevation-z8">
       
         <ng-container matColumnDef="id">
-          <th width="100px" mat-header-cell *matHeaderCellDef> id </th>
+          <th width="150px" mat-header-cell *matHeaderCellDef> id </th>
           <td mat-cell *matCellDef="let element"> {{element.id}} </td>
         </ng-container>
       
@@ -17,7 +17,7 @@
         </ng-container>
 
         <ng-container matColumnDef="value">
-          <th width="200px" mat-header-cell *matHeaderCellDef> Valor </th>
+          <th width="200px" mat-header-cell *matHeaderCellDef> Quantidade </th>
           <td mat-cell *matCellDef="let element"> {{element.value}} </td>
         </ng-container>
 
@@ -28,7 +28,7 @@
 
         <ng-container matColumnDef="amount">
           <th width="200px" mat-header-cell *matHeaderCellDef> Total do processo </th>
-          <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.amount | customCurrency }} </td>
         </ng-container>
       
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

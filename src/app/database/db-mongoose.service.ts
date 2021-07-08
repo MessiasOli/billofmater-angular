@@ -5,8 +5,9 @@ import { Injectable } from '@angular/core';
 import { Material } from '../model/material';
 import { Process } from '../model/process';
 
-//export var URL_API:string = "https://b-bom-ra-sc3009572.herokuapp.com/api"
-export var URL_API = "http://localhost:8080/api"
+export var URL_API:string = "https://b-bom-ra-sc3009572.herokuapp.com/api"
+//export var URL_API = "http://localhost:8080/api"
+
 @Injectable({
   providedIn: 'root'
 })
@@ -27,7 +28,6 @@ export class DbMongooseService implements IRepository {
   async AddMaterial(mat: Material):Promise<boolean> {
     await this.api.post(`/material`, mat)
       .then(res => res.data).then(data => {
-        console.log('data :>> ', data);
         return true
       })
       .catch(err => {

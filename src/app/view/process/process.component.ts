@@ -47,7 +47,7 @@ export class ProcessComponent implements OnInit {
       {
         width: '500px',
         data: {...processForEdit}
-    });
+      });
     dialogRef.afterClosed().subscribe( async result => {
       if (!result)
         return
@@ -166,7 +166,6 @@ export class DialogProcessRegister implements OnInit {
   }
 
   async onClick(res:boolean) { 
-    console.log('res :>> ', res);
     if(res && await this.validateId() && this.newProcess){
       this.idValidated = true
       return

@@ -26,7 +26,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class RegisterInputComponent implements OnInit {
   
-  displayedColumns: string[] = [ "edit", "idmaterial" , "description", "price", "specificvalue", "unitmensurement"];
+  displayedColumns: string[] = [ "edit", "idmaterial" , "description", "specificvalue", "unitmensurement", "price"];
   materials : Material[] = []
   process : Process[] = []
   selectedProcess: string = "";
@@ -62,7 +62,7 @@ export class RegisterInputComponent implements OnInit {
 
       matForEdit.idprocess = this.selectedProcessId
       const dialogRef = this.dialog.open(
-        DialogInputRegister, { data: matForEdit }
+        DialogInputRegister, { width: '500px', data: matForEdit }
     );
     dialogRef.afterClosed().subscribe( async result => {
       if (!result)
