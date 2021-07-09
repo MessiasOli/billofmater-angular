@@ -34,18 +34,18 @@ export class ResumeService {
       unitmensurement: "TOTAL",
       amount: 0
     })
-
-    console.log('totalProcess :>> ', totalProcess);
     
     await this.loadMaterials();
 
     this.process.forEach((p, i) => {
       let total = 0
       if(this.billofMaterial[i]){
-        this.billofMaterial[i].forEach(m => total += m.value)
+        this.billofMaterial[i].forEach(m => {
+          if(m.amount != "")
+            total += m.value
+        });
         p.amount = total;
         totalProcess += total;
-        console.log('totalProcess :>> ', totalProcess);
       }
     })
 
